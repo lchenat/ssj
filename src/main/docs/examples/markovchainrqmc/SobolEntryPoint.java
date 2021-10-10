@@ -28,8 +28,18 @@ public class SobolEntryPoint {
    public double[][] sample(int pow, int dim) {
 	    int n_samples = (int)Math.pow(2, pow);
 	    double[][] points = new double[n_samples][dim];
-		p = new SobolSequence(pow, 31, dim);
-		p.randomize(rand);
+
+
+        // p = new DigitalNetBase2();
+        // DigitalNetBase2 p = (new SobolSequence(pow, 31, dim)).toNetShiftCj();
+        // LMScrambleShift randLMS = new LMScrambleShift(new MRG32k3a());
+        DigitalNetBase2 p = new SobolSequence(pow, 31, dim);
+        p.leftMatrixScramble(stream);
+        p.addRandomShift(stream);
+
+
+		// p = new SobolSequence(pow, 31, dim);
+		// p.randomize(rand);
         PointSetIterator point_stream = p.iterator ();
         //stream.resetCurPointIndex ();
         for (int i = 0; i < n_samples; ++i) {
